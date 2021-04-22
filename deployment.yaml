@@ -28,7 +28,7 @@ spec:
                     key: GREETING
             ports:
               - name: web 
-                containerPort: 8000
+                containerPort: 80
 #            livenessProbe:
 #              httpGet:
 #                port: 8000

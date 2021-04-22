@@ -35,9 +35,10 @@ def get_user(userid):
 
 @app.route('/db')
 def db():
-
     from sqlalchemy import create_engine
-    engine = create_engine('postgresql+psycopg2://myuser:passwd@postgres/myapp', echo=True)
+
+    # engine = create_engine('postgresql+psycopg2://myuser:passwd@postgres/myapp', echo=True)
+    engine = create_engine(config['DATABASE_URI'], echo=True)
     rows = []
     with engine.connect() as connection:
         result = connection.execute("select id, name from client;")
@@ -46,8 +47,8 @@ def db():
 
 
 if __name__ == "__main__":
-    print(db())
-    # app.run(host='0.0.0.0',port='8000')
+    # print(db())
+    app.run(host='0.0.0.0', port='80', debug=True)
     # with app.test_request_context():
     #     print(url_for('get_user', userid = '1'))
     #     print(url_for('create_user'))
