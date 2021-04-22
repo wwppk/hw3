@@ -14,21 +14,32 @@ spec:
        spec:
           containers:
           - name: hello-py
-            image: wwppk/myapp:v1
+            image: wwppk/myapp:v2
+            env:
+              - name: DATABASE_URI
+                valueFrom:
+                  secretKeyRef:
+                    name: hello-secret
+                    key: DATABASE_URI
+              - name: GREETING
+                valueFrom:
+                  configMapKeyRef:
+                    name: hello-config
+                    key: GREETING
             ports:
               - name: web 
                 containerPort: 8000
-            livenessProbe:
-              httpGet:
-                port: 8000
-                path: /
-              initialDelaySeconds: 5
-              periodSeconds: 3
-              timeoutSeconds: 2
-            readinessProbe:
-              httpGet:
-                port: 8000
-                path: /health
-              initialDelaySeconds: 5
-              periodSeconds: 3
-              timeoutSeconds: 2
+#            livenessProbe:
+#              httpGet:
+#                port: 8000
+#                path: /
+#              initialDelaySeconds: 5
+#              periodSeconds: 3
+#              timeoutSeconds: 2
+#            readinessProbe:
+#              httpGet:
+#                port: 8000
+#                path: /health
+#              initialDelaySeconds: 5
+#              periodSeconds: 3
+#              timeoutSeconds: 2
