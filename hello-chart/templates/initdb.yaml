@@ -28,7 +28,7 @@ spec:
           image: postgres:latest
           env:
             - name: POSTGRES_HOST
-              value: {{ include "postgresql.fullname" . | quote }}
+              value: {{ .Values.externalPostgresql.postgresqlHost | quote }}
             - name: POSTGRES_PORT
               value: {{ .Values.postgresql.service.port | quote }}
           command:
@@ -41,7 +41,7 @@ spec:
       - name: post-install-job
         env:
           - name: DATABASE_URI
-            value: {{ printf "postgresql://%s:%s@%s:%s/%s" .Values.postgresql.postgresqlUsername .Values.postgresql.postgresqlPassword (include "postgresql.fullname" .) .Values.postgresql.service.port .Values.postgresql.postgresqlDatabase  | quote }}
+            value: {{ printf "postgresql://%s:%s@%s:%s/%s" .Values.postgresql.postgresqlUsername .Values.postgresql.postgresqlPassword .Values.externalPostgresql.postgresqlHost .Values.postgresql.service.port .Values.postgresql.postgresqlDatabase  | quote }}
         image: postgres:latest
         command:
           - sh
@@ -52,4 +52,4 @@ spec:
               insert into client (id, name) values (1, 'Konstantin');
             EOF
 
-  backoffLimit: 0
+  backoffLimit: 2
