@@ -11,6 +11,10 @@ config = {
     'HOSTNAME': 'HostName', #os.environ['HOSTNAME'],
     'GREETING': os.environ.get('GREETING', 'Hello'),
 }
+@app.route("/config")
+def configuration():
+    # config['version'] = 'NEW'
+    return json.dumps(config)
 
 @app.route("/health")
 def health():
@@ -29,8 +33,8 @@ def hello():
 
 def _create_connection():
 
-    # engine = create_engine(config['DATABASE_URI'], echo=True)
-    engine = create_engine("postgresql+psycopg2://myuser:passwd@192.168.49.2:31131/myapp", echo=True)
+    engine = create_engine(config['DATABASE_URI'], echo=True)
+    # engine = create_engine("postgresql+psycopg2://myuser:passwd@192.168.49.2:31131/myapp", echo=True)
     return engine
 
 @app.route('/db')
@@ -62,7 +66,7 @@ def create_user():
 def get_user(userid):
     engine = _create_connection()
     with engine.connect() as connection:
-        result = connection.execute(f"select id, name from client where id={userid}")
+        result = connection.execute(f'select id, name from client where id={userid}')
         rows = [dict(r.items()) for r in result]
     return json.dumps(rows)
 
