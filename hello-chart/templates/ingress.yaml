@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hello-ingress
+  name: {{ include "hello-chart.fullname" . }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
@@ -13,6 +13,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: hello-service
+              name: {{ include "hello-chart.fullname" . }}
               port:
                 number: 9000

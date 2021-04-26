@@ -4,7 +4,7 @@ build:
   tagPolicy:
     sha256: {}
   artifacts:
-  - image: wwppk/myapp:v2
+  - image: wwppk/myapp
     context: hello-py
 deploy:
   helm:
@@ -12,4 +12,4 @@ deploy:
     - name: hello-skaffold
       chartPath: hello-chart
       values:
-        image: wwppk/myapp:v2
+        image: wwppk/myapp
