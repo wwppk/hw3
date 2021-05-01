@@ -3,6 +3,7 @@ import json
 
 from flask import Flask, request, url_for
 from sqlalchemy import create_engine
+from metrics import register_metrics
 
 app = Flask(__name__)
 
@@ -109,7 +110,7 @@ def metrics():
 
 
 if __name__ == "__main__":
-    # print(str(create_user(1))+'1')
+    register_metrics(app)
     app.run(host='0.0.0.0', port='8000', debug=True)
     # with app.test_request_context():
     #     print(url_for('get_user', userid = '1'))
