@@ -15,26 +15,9 @@ postgresql:
   service:
     port: "5432"
 
-#replicaCount: 2
-#
-#image: wwppk/myapp:v20
-##  repository: wwppk/myapp:v2
-#
-#service:
-#  type: NodePort
-#  port: 9000
-#
-##postgresql:
-##  enabled: true
-##  postgresqlUsername: myuser
-##  postgresqlPassword: passwd
-##  postgresqlDatabase: myapp
-##  service:
-##    port: "5432"
-#
 externalPostgresql:
-#  postgresqlUsername: myuser
-#  postgresqlPassword: passwd
-#  postgresqlDatabase: myapp
   postgresqlHost: "postgres"
-#  postgresqlPort: "5432"
+
+metrics:
+  serviceMonitor:
+    enabled: true
