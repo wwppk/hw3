@@ -1,6 +1,6 @@
 replicaCount: 2
 
-image: wwppk/myapp:v2
+image: wwppk/myapp:v3
 #  repository:
 
 service:
