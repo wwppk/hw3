@@ -11,6 +11,7 @@ config = {
     'HOSTNAME': 'HostName', #os.environ['HOSTNAME'],
     'GREETING': os.environ.get('GREETING', 'Hello'),
 }
+# Служебные функции
 @app.route("/config")
 def configuration():
     # config['version'] = 'NEW'
@@ -20,26 +21,22 @@ def configuration():
 def health():
     return '{"status": "ok"}'
 
-
 @app.route("/version")
 def version():
     return '{"version": "1"}'
-
 
 @app.route("/")
 def hello():
     return 'Hello world!!!' #from '+ os.environ['HOSTNAME'] + '!'
 
-
+# Работа с БД
 def _create_connection():
-
     engine = create_engine(config['DATABASE_URI'], echo=True)
     # engine = create_engine("postgresql+psycopg2://myuser:passwd@192.168.49.2:31131/myapp", echo=True)
     return engine
 
 @app.route('/db')
 def db():
-
     engine = _create_connection()
     rows = []
     with engine.connect() as connection:
@@ -60,7 +57,6 @@ def create_user():
     except Exception as e:
         return f"{e.args}"
 
-
 # !получить пользователя
 @app.route("/user/<userid>", methods=['GET'])
 def get_user(userid):
@@ -80,8 +76,6 @@ def delete_user(userid):
         return 'Пользователь удален.'
     except Exception as e:
         return f"{e.args}"
-
-
 
 # обновить пользователя
 @app.route("/user/<userid>", methods=['PUT'])
@@ -107,6 +101,11 @@ def all_clients():
     except Exception as e:
         return f"{e.args}"
 
+# Метрики
+@app.route('/metrics')
+def metrics():
+    from prometheus_client import generate_latest
+    return generate_latest()
 
 
 if __name__ == "__main__":
